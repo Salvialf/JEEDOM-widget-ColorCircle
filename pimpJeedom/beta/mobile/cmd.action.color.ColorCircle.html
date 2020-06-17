@@ -1,12 +1,12 @@
 <div class="cmd cmd-widget" data-type="action" data-subtype="color" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
-  <canvas id="color-picker"></canvas>
+  <canvas id="color-picker#id#"></canvas>
     <script>
     var disposition = ('#disposition#' != '#'+'disposition#') ? '#disposition#' : 'quad';
     var size = is_numeric('#size#') ? '#size#' : 140;
     var colorSavers = ('#color-savers#' == 'checked') ? true : false;
         $.include(['plugins/pimpJeedom/core/template/dashboard/cmd.action.color.ColorCircle/kellycolorpicker.min.js'], function() {
         var colorPicker =  new KellyColorPicker({
-        place : 'color-picker',
+        place : 'color-picker#id#',
         size : size,
         method : disposition,
     //    alphaSlider : true,
