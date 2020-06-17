@@ -1,57 +1,24 @@
-<div class="colorCircle cmd cmd-widget" data-type="action" data-subtype="color" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
-    <div class="action_colorpicker"></div>
+<div class="cmd cmd-widget" data-type="action" data-subtype="color" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
+  <canvas id="color-picker"></canvas>
     <script>
-      jeedom.cmd.update['#id#'] = function(_options){
-        $.include(['plugins/pimpJeedom/core/template/dashboard/cmd.action.color.ColorCircle/farbtastic.js'], function() {
-          var cmd = $('.cmd[data-cmd_id=#id#] .action_colorpicker');
-            cmd.off();
-            if (cmd.length > 0) {
-                cmd.farbtastic();
-            	$.farbtastic(cmd).setColor((_options.display_value != '') ? _options.display_value.substring(0,7) : '#000000');
-                cmd.on('mouseup', function() {
-                    jeedom.cmd.execute({id: '#id#', value: {color: $.farbtastic($(this)).color}});
-                });
-            }
-        });
-      }
-        jeedom.cmd.update['#id#']({display_value:'#state#'});
-    </script>
-    <style>
-.colorCircle {
-  width: 146px;
-  height: 146px;
-}
-.farbtastic {
-  position: relative;
-}
-.farbtastic * {
-  position: absolute;
-  cursor: crosshair;
-}
-.farbtastic, .farbtastic .wheel {
-  width: 146px;
-  height: 146px;
-}
-.farbtastic .color, .farbtastic .overlay {
-  top: 36px;
-  left: 36px;
-  width: 75px;
-  height: 75px;
-}
-.farbtastic .wheel {
-  background: url(plugins/pimpJeedom/core/template/dashboard/cmd.action.color.ColorCircle/wheel.png) no-repeat;
-  width: 146px;
-  height: 146px;
-}
-.farbtastic .overlay {
-  background: url(plugins/pimpJeedom/core/template/dashboard/cmd.action.color.ColorCircle/mask.png) no-repeat;
-}
-.farbtastic .marker {
-  width: 17px;
-  height: 17px;
-  margin: -8px 0 0 -8px;
-  overflow: hidden; 
-  background: url(plugins/pimpJeedom/core/template/dashboard/cmd.action.color.ColorCircle/marker.png) no-repeat;
+    var disposition = ('#disposition#' != '#'+'disposition#') ? '#disposition#' : 'quad';
+    var size = is_numeric('#size#') ? '#size#' : 140;
+    var colorSavers = ('#color-savers#' == 'checked') ? true : false;
+        $.include(['plugins/pimpJeedom/core/template/dashboard/cmd.action.color.ColorCircle/kellycolorpicker.min.js'], function() {
+        var colorPicker =  new KellyColorPicker({
+        place : 'color-picker',
+        size : size,
+        method : disposition,
+    //    alphaSlider : true,
+        colorSaver : colorSavers,
+        userEvents : { change : function(self) {
+          jeedom.cmd.execute({id: '#id#', value: {color: self.getCurColorHex()}});
+        }}
+    });
+    jeedom.cmd.update['#id#'] = function(_options){
+      colorPicker.setColor(_options.display_value);
     }
-  </style>
+    jeedom.cmd.update['#id#']({display_value:'#state#'});
+        });
+    </script>
 </div>
