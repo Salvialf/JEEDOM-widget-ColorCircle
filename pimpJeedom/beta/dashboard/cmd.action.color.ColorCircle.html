@@ -16,7 +16,7 @@
         }}
     });
     jeedom.cmd.update['#id#'] = function(_options){
-      colorPicker.setColor(_options.display_value);
+      colorPicker.setColor((_options.display_value != '') ? _options.display_value.substring(0,7) : '#000000');
     }
     jeedom.cmd.update['#id#']({display_value:'#state#'});
         });
